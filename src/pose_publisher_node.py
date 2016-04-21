@@ -30,32 +30,39 @@ FRAMES = [
         'right_knee',
         'right_foot',
         ]
-LAST = rospy.Duration()
+
 
 if __name__ == '__main__':
 	rospy.init_node('pose_recognition_node')
 	rospy.loginfo("Initializing Node...")
 
 	listener = tf.TransformListener()
-	rospy.loginfo("Waiting for transform")	
-	listener.waitForTransform(BASE_FRAME, 'tracker/user_1/right_hand', rospy.Time(), rospy.Duration(40.0))
-	rospy.loginfo("Checked!")
+
+	rospy.loginfo("Waiting for tracking...")	
+
 
 	r = rospy.Rate(1)
 	while not rospy.is_shutdown():
 		try:
-			listener.waitForTransform(BASE_FRAME, 'tracker/user_1/right_hand', rospy.Time(), rospy.Duration(4.0))			
-			trans, rot = listener.lookupTransform(BASE_FRAME, 'tracker/user_1/right_hand', rospy.Time())
+			listener.waitForTransform(BASE_FRAME, 'tracker/user_1/right_hand', rospy.Time(), rospy.Duration(60.0))
+
+			
+			(trans, rot) = listener.lookupTransform(BASE_FRAME, 'tracker/user_1/right_hand', rospy.Time())
+			(trans2, rot2) = listener.lookupTransform(BASE_FRAME, 'tracker/user_1/left_hand', rospy.Time())
 
         	except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
 
             		continue
 		
-		x = trans[0]
-		y = trans[1]
-		z = trans[2]
-
-
+		"""
+		Logic to determine which hand is higher to the ground
+		"""
+		if trans[1] > (trans2[1] + 0.05):
+			rospy.loginfo("RIGHT HAND")
+		else:
+			if trans2[1] > (trans[1] + 0.05):
+				rospy.loginfo("LEFT HAND")
+			else:
+				rospy.loginfo("HANDS AT THE SAME HEIGHT")
 		
-		rospy.loginfo(str(x) +", "+str(y))
 		r.sleep()
