@@ -2,7 +2,7 @@
 
 
 """
-Node for pose recognition
+Node for pose publishing
 """
 
 
@@ -10,59 +10,45 @@ import roslib
 roslib.load_manifest('pose_publisher')
 import rospy
 import tf
+from std_msgs.msg import String
 
 
 BASE_FRAME = 'tracker_depth_frame'
-FRAMES = [
-        'head',
-        'neck',
-        'torso',
-        'left_shoulder',
-        'left_elbow',
-        'left_hand',
-        'left_hip',
-        'left_knee',
-        'left_foot',
-        'right_shoulder',
-        'right_elbow',
-        'right_hand',
-        'right_hip',
-        'right_knee',
-        'right_foot',
-        ]
 
 
-if __name__ == '__main__':
-	rospy.init_node('pose_recognition_node')
+def talker():
+
+	pub = rospy.Publisher('chatter', String, queue_size = 10)
+	rospy.init_node('talker', anonymous = True)
 	rospy.loginfo("Initializing Node...")
 
 	listener = tf.TransformListener()
 
 	rospy.loginfo("Waiting for tracking...")	
 
-
 	r = rospy.Rate(1)
 	while not rospy.is_shutdown():
-		try:
-			listener.waitForTransform(BASE_FRAME, 'tracker/user_1/right_hand', rospy.Time(), rospy.Duration(60.0))
+		
+		listener.waitForTransform(BASE_FRAME, 'tracker/user_1/right_hand', rospy.Time(), rospy.Duration(60.0))
 
 			
-			(trans, rot) = listener.lookupTransform(BASE_FRAME, 'tracker/user_1/right_hand', rospy.Time())
-			(trans2, rot2) = listener.lookupTransform(BASE_FRAME, 'tracker/user_1/left_hand', rospy.Time())
+		(trans, rot) = listener.lookupTransform(BASE_FRAME, 'tracker/user_1/right_hand', rospy.Time())
+		
+		#(trans2, rot2) = listener.lookupTransform(BASE_FRAME, 'tracker/user_1/left_hand', rospy.Time())
+
+		rospy.loginfo(trans)
+		coord = str(trans[0]) + ", " + str(trans[1]) + ", " + str(trans[2])
+		pub.publish(coord)
+
+		r.sleep()
+
+
+if __name__ == '__main__':
+
+
+		try:
+			talker()
 
         	except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
 
-            		continue
-		
-		"""
-		Logic to determine which hand is higher to the ground
-		"""
-		if trans[1] > (trans2[1] + 0.05):
-			rospy.loginfo("RIGHT HAND")
-		else:
-			if trans2[1] > (trans[1] + 0.05):
-				rospy.loginfo("LEFT HAND")
-			else:
-				rospy.loginfo("HANDS AT THE SAME HEIGHT")
-		
-		r.sleep()
+            		pass
