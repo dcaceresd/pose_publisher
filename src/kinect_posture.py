@@ -32,7 +32,8 @@ FRAMES = [
         ]
 LAST = rospy.Duration()
 
-class Posture:
+
+class User:
 
 	def __init__(self, name='kinect_posture', user=1):
 		rospy.init_node(name, anonymous=True)
@@ -41,6 +42,9 @@ class Posture:
 
 	def getUser(self):
 		return self.user
+
+	def setUser(self, n):
+		self.user = n
 	
 	    
 	def getPosture(self):
