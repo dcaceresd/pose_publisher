@@ -45,7 +45,13 @@ class User:
 
 	def setUser(self, n):
 		self.user = n
-	
+
+	def userExistance(self):
+		if self.listener.frameExists('/tracker/user_{}/head'.format(self.user)):
+			return True
+		else:
+			return False
+
 	    
 	def getPosture(self):
         	"""
@@ -58,10 +64,10 @@ class User:
 			frames = []
 			for frame in FRAMES:
 
-				self.listener.waitForTransform(BASE_FRAME, 'tracker/user_{}/{}'.format(self.user, frame), rospy.Time(), rospy.Duration(60.0))
+				self.listener.waitForTransform(BASE_FRAME, 'tracker/user_{}/{}'.format(self.user, frame), rospy.Time(), rospy.Duration(10.0))
 				(trans, rot) = self.listener.lookupTransform(BASE_FRAME,'tracker/user_{}/{}'.format(self.user, frame), LAST)
 				frames.append((trans, rot))
 			return frames
 
 		except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-			raise IndexError
+			rospy.loginfo('Unable to perform the tranformation!')
