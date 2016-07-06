@@ -1,15 +1,13 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 
+"""Module to connect a Kinect v2 through ROS + OpenNI2
 
-"""
-Module to connect a Kinect v2 through ROS + OpenNI2
 """
 
 import roslib
 roslib.load_manifest('pose_publisher')
 import rospy
 import tf
-
 
 BASE_FRAME = 'tracker_depth_frame'
 FRAMES = [
@@ -33,6 +31,9 @@ LAST = rospy.Duration()
 
 
 class User:
+	"""Creates new users to store NiTE positions
+	
+	"""
 
 	def __init__(self, name='kinect_posture', user=1):
 		rospy.init_node(name, anonymous=True)
@@ -71,33 +72,31 @@ class User:
 
 	    
 	def getPosture(self):
-        	"""Function to store all the frame transformations and rotations of a user
-        	
-        	Args:
-        		frames: matrix that contains the trans and rot
-        		trans: position vector of the frame
-        		rot: rotation vector of the frame
-        		
-        	Returns:
-        		a list of frames constituted by a translation matrix and a rotation matrix.
-        		
-       	 	Raises:
-       	 		IndexError when a frame can't be found (which happens if the requested user is not calibrated).
-       	 		
+		"""Function to store the frame transformations and rotations of a user
+		
+			Args:
+				frames: matrix that contains the trans and rot
+				trans: position vector of the frame
+				rot: rotation vector of the frame
+				
+			Returns:
+				a translation and a rotation matrix of frames
         	"""
 		try:
 			frames = []
 			for frame in FRAMES:
 
-				self.listener.waitForTransform(BASE_FRAME, 'tracker/user_{}/{}'.format(self.user, frame),
-			rospy.Time(), rospy.Duration(10.0))
+				self.listener.waitForTransform(BASE_FRAME, 
+					'tracker/user_{}/{}'.format(self.user, frame), rospy.Time(), 
+					rospy.Duration(10.0))
 				
 				(trans, rot) = self.listener.lookupTransform(BASE_FRAME,
-			'tracker/user_{}/{}'.format(self.user, frame), LAST)
+					'tracker/user_{}/{}'.format(self.user, frame), LAST)
 				
 				frames.append((trans, rot))
 			return frames
 
-		except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+		except (tf.LookupException, tf.ConnectivityException, 
+			tf.ExtrapolationException):
 			rospy.loginfo('Unable to perform the tranformation!')
 			
