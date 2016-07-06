@@ -2,14 +2,13 @@
 
 
 """
-Module to connect to a Kinect v2 through ROS + OpenNI2 and access and share the skeleton postures.
+Module to connect a Kinect v2 through ROS + OpenNI2
 """
 
 import roslib
 roslib.load_manifest('pose_publisher')
 import rospy
 import tf
-from std_msgs.msg import String
 
 
 BASE_FRAME = 'tracker_depth_frame'
@@ -41,12 +40,30 @@ class User:
 		self.user = user
 
 	def getUser(self):
+		"""Funtion to get the number of the actual user
+		
+		Returns:
+			The user number definined by NITE
+		
+		"""
 		return self.user
 
 	def setUser(self, n):
+		"""Function to change the actual user
+		
+		Args:
+			n (int): The number of the new user
+			
+		"""
 		self.user = n
 
 	def userExistance(self):
+		"""Function to determine if a user exists
+		
+		Returns:
+			True for success, False otherwise
+			
+		"""
 		if self.listener.frameExists('/tracker/user_{}/head'.format(self.user)):
 			return True
 		else:
@@ -54,20 +71,33 @@ class User:
 
 	    
 	def getPosture(self):
-        	"""
-        	Returns a list of frames constituted by a translation matrix
-        	and a rotation matrix.
-       	 	Raises IndexError when a frame can't be found (which happens if
-        	the requested user is not calibrated).
+        	"""Function to store all the frame transformations and rotations of a user
+        	
+        	Args:
+        		frames: matrix that contains the trans and rot
+        		trans: position vector of the frame
+        		rot: rotation vector of the frame
+        		
+        	Returns:
+        		a list of frames constituted by a translation matrix and a rotation matrix.
+        		
+       	 	Raises:
+       	 		IndexError when a frame can't be found (which happens if the requested user is not calibrated).
+       	 		
         	"""
 		try:
 			frames = []
 			for frame in FRAMES:
 
-				self.listener.waitForTransform(BASE_FRAME, 'tracker/user_{}/{}'.format(self.user, frame), rospy.Time(), rospy.Duration(10.0))
-				(trans, rot) = self.listener.lookupTransform(BASE_FRAME,'tracker/user_{}/{}'.format(self.user, frame), LAST)
+				self.listener.waitForTransform(BASE_FRAME, 'tracker/user_{}/{}'.format(self.user, frame),
+			rospy.Time(), rospy.Duration(10.0))
+				
+				(trans, rot) = self.listener.lookupTransform(BASE_FRAME,
+			'tracker/user_{}/{}'.format(self.user, frame), LAST)
+				
 				frames.append((trans, rot))
 			return frames
 
 		except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
 			rospy.loginfo('Unable to perform the tranformation!')
+			
