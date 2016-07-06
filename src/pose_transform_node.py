@@ -1,5 +1,8 @@
 #!/usr/bin/env python 
 
+"""Module to publish the necesary user data
+"""
+
 import roslib
 roslib.load_manifest('pose_publisher')
 import rospy
