@@ -11,22 +11,22 @@ import tf
 
 BASE_FRAME = 'tracker_depth_frame'
 FRAMES = [
-        'head',
-        'neck',
-        'torso',
-        'left_shoulder',
-        'left_elbow',
-        'left_hand',
-        'left_hip',
-        'left_knee',
-        'left_foot',
-        'right_shoulder',
-        'right_elbow',
-        'right_hand',
-        'right_hip',
-        'right_knee',
-        'right_foot',
-        ]
+	'head',
+	'neck',
+	'torso',
+	'left_shoulder',
+	'left_elbow',
+	'left_hand',
+	'left_hip',
+	'left_knee',
+	'left_foot',
+	'right_shoulder',
+	'right_elbow',
+	'right_hand',
+	'right_hip',
+	'right_knee',
+	'right_foot',
+	]
 LAST = rospy.Duration()
 
 
@@ -99,4 +99,3 @@ class User:
 		except (tf.LookupException, tf.ConnectivityException, 
 			tf.ExtrapolationException):
 			rospy.loginfo('Unable to perform the tranformation!')
-			
