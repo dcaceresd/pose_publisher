@@ -31,9 +31,8 @@ LAST = rospy.Duration()
 
 
 class User:
-	"""Creates new users to store NiTE positions
 	
-	"""
+	"""Creates new users to store NiTE positions"""
 
 	def __init__(self, name='kinect_posture', user=1):
 		rospy.init_node(name, anonymous=True)
@@ -74,13 +73,14 @@ class User:
 	def getPosture(self):
 		"""Function to store the frame transformations and rotations of a user
 		
-			Args:
-				frames: matrix that contains the trans and rot
-				trans: position vector of the frame
-				rot: rotation vector of the frame
+		Args:
+			frames: matrix that contains the trans and rot
+			trans: position vector of the frame
+			rot: rotation vector of the frame
 				
-			Returns:
-				a translation and a rotation matrix of frames
+		Returns:
+			a translation and a rotation matrix of frames
+			
         	"""
 		try:
 			frames = []
