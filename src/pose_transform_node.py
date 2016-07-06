@@ -1,35 +1,41 @@
 #!/usr/bin/env python 
 
+"""Module to publish the necesary user data
+"""
+
 import roslib
 roslib.load_manifest('pose_publisher')
 import rospy
 from kinect_posture import User
-import tf
 
 if __name__ == '__main__':
-	
+
 	pos = User()
 	rospy.loginfo('Initializing node...')
-	listener2 = tf.TransformListener()
 
-	rate = rospy.Rate(1)
+	users = 10
+	
+	"""Creates an array to store the last posture of each user"""
+	lastPosture = []
+	for i in range(users):
+   		lastPosture.append([])
+    		for j in range(15):
+       			lastPosture[i].append(None)
+
+	rate = rospy.Rate(1)    
 
 	while not rospy.is_shutdown():
-		n = 0
+		try:
+			for i in range(users):
+				pos.setUser(str(i+1))
 
-		if listener2.frameExists('/tracker/user_1/head'):
-			for i in range(10):
-				if listener2.frameExists('/tracker/user_{}/head'.format(str(i))):
-					n+=1
+				if pos.userExistance():
+					if not (lastPosture[i] == pos.getPosture()):
+						rospy.loginfo('User: ' + str(i+1) + ' moving!')	
 
-			if n != 0:
-				for i in xrange(n):
-					pos.setUser(str(i+1))
-					print pos.getPosture()
+					lastPosture[i] = pos.getPosture()
+					
+			rate.sleep()
 
-
-		else:
-			rospy.loginfo('User not detected')
-
-		rate.sleep()
-
+		except:
+			rospy.loginfo('Unexpected error')
