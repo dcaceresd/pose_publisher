@@ -4,7 +4,6 @@ import roslib
 roslib.load_manifest('pose_publisher')
 import rospy
 from kinect_posture import User
-import tf
 
 if __name__ == '__main__':
 
