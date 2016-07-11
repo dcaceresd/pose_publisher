@@ -6,10 +6,7 @@ import roslib
 roslib.load_manifest('pose_publisher')
 import rospy
 import tf
-import time
-import math
-from geometry_msgs.msg import Twist
-from geometry_msgs.msg import Vector3
+from geometry_msgs.msg import Twist, Vector3
 
 BASE_FRAME = 'tracker_depth_frame'
 FRAMES = [
@@ -105,27 +102,27 @@ class User:
 			
 	def getVelocities(self):
 		"""Function that returns the linear and angular velocities 
-		of a frame referenced to another frame 
 		
 		Returns: 
-			a marix with the velocity values of the user
-		
+			a matrix with the velocity values of the user
+			
 		"""
 		
 		try:
 			t = rospy.Time(0)
-			self.listener.waitForTransform(BASE_FRAME, 'tracker/user_{}/head'.format(self.user),
-				t, rospy.Duration(10.0))
-			(matrix1, matrix2) = self.listener.lookupTwist('tracker/user_{}/right_hand'.format(self.user),
+			self.listener.waitForTransform(BASE_FRAME, 
+				'tracker/user_{}/head'.format(self.user),t, rospy.Duration(10.0))
+			(matrix1, matrix2) = self.listener.lookupTwist(
+				'tracker/user_{}/right_hand'.format(self.user),
 				'tracker/user_{}/torso'.format(self.user), t, rospy.Duration(1))
-
+				
 			matrix = (matrix1, matrix2)
-
+			
 			v1 = Vector3()
 			v1.x = matrix1[0]
 			v1.y = matrix1[1]
 			v1.z = matrix1[2]
-
+			
 			v2 = Vector3()
 			v2.x = matrix2[0]
 			v2.y = matrix2[1]
@@ -133,8 +130,8 @@ class User:
 			#v2.vector.z = matrix2[2]
 			if not matrix == None:
 				self.pub.publish(v1, v2)
-
+				
 			return matrix
-
+			
 		except (tf.ExtrapolationException):
 			pass
