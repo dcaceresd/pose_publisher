@@ -6,7 +6,7 @@ import roslib
 roslib.load_manifest('pose_publisher')
 import rospy
 from kinect_posture import User
-
+from geometry_msgs.msg import Vector3
 
 if __name__ == '__main__':
 
@@ -15,10 +15,10 @@ if __name__ == '__main__':
 
 	users = 10
 
-	v = Vector3()
-	v.x = 0
-	v.y = 0
-	v.z = 0
+	v = Vector3(0, 0, 0)
+	#v.x = 0
+	#v.y = 0
+	#v.z = 0
 
 	m = [v, v]
 	
@@ -33,7 +33,7 @@ if __name__ == '__main__':
 	"""Array to store the past velocities"""
 	velocities = []
  
-	rate = rospy.Rate(2)    
+	rate = rospy.Rate(10)    
 
 	while not rospy.is_shutdown():
 		for i in range(users):
