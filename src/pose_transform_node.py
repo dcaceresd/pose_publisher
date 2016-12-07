@@ -7,6 +7,7 @@ roslib.load_manifest('pose_publisher')
 import rospy
 from kinect_posture import User
 from geometry_msgs.msg import Vector3
+from pose_publisher.msg import SkeletonData
 
 if __name__ == '__main__':
 
@@ -14,14 +15,19 @@ if __name__ == '__main__':
 	rospy.loginfo('Initializing node...')
 
 	users = 10
+	data_points = 45
 
 	v = Vector3(0, 0, 0)
 	#v.x = 0
 	#v.y = 0
 	#v.z = 0
 
-	m = [v, v]
+	#m = [v, v]
 	
+	m = []	
+	for i in range(data_points):
+		m.append(v)
+		
 	
 	"""Creates an array to store the last posture of each user"""
 	lastPosture = []
@@ -42,9 +48,9 @@ if __name__ == '__main__':
 			if pos.userExistance():
 				if not (lastPosture[i] == pos.getPosture()):
 					rospy.loginfo('User: ' + str(i+1) + ' moving!')
-					velocities.append(pos.getVelocities())
-					print pos.getVelocities()
+					velocities.append(pos.getAllData())
+					print pos.getAllData()
 				else:
 					velocities.append(m)
-				lastPosture[i] = pos.getPosture()
+				lastPosture[i] = pos.getAllData()
 		rate.sleep()
