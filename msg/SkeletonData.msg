@@ -1,0 +1,62 @@
+Header header
+
+geometry_msgs/Vector3 head_pos
+geometry_msgs/Vector3 head_linear
+geometry_msgs/Vector3 head_angular
+
+geometry_msgs/Vector3 neck_pos
+geometry_msgs/Vector3 neck_linear
+geometry_msgs/Vector3 neck_angular
+
+geometry_msgs/Vector3 torso_pos
+geometry_msgs/Vector3 torso_linear
+geometry_msgs/Vector3 torso_angular
+
+geometry_msgs/Vector3 left_shoulder_pos
+geometry_msgs/Vector3 left_shoulder_linear
+geometry_msgs/Vector3 left_shoulder_angular
+
+geometry_msgs/Vector3 left_elbow_pos
+geometry_msgs/Vector3 left_elbow_linear
+geometry_msgs/Vector3 left_elbow_angular
+
+geometry_msgs/Vector3 left_hand_pos
+geometry_msgs/Vector3 left_hand_linear
+geometry_msgs/Vector3 left_hand_angular
+
+geometry_msgs/Vector3 left_hip_pos
+geometry_msgs/Vector3 left_hip_linear
+geometry_msgs/Vector3 left_hip_angular
+
+geometry_msgs/Vector3 left_knee_pos
+geometry_msgs/Vector3 left_knee_linear
+geometry_msgs/Vector3 left_knee_angular
+
+geometry_msgs/Vector3 left_foot_pos
+geometry_msgs/Vector3 left_foot_linear
+geometry_msgs/Vector3 left_foot_angular
+
+geometry_msgs/Vector3 right_shoulder_pos
+geometry_msgs/Vector3 right_shoulder_linear
+geometry_msgs/Vector3 right_shoulder_angular
+
+geometry_msgs/Vector3 right_elbow_pos
+geometry_msgs/Vector3 right_elbow_linear
+geometry_msgs/Vector3 right_elbow_angular
+
+geometry_msgs/Vector3 right_hand_pos
+geometry_msgs/Vector3 right_hand_linear
+geometry_msgs/Vector3 right_hand_angular
+
+geometry_msgs/Vector3 right_hip_pos
+geometry_msgs/Vector3 right_hip_linear
+geometry_msgs/Vector3 right_hip_angular
+
+geometry_msgs/Vector3 right_knee_pos
+geometry_msgs/Vector3 right_knee_linear
+geometry_msgs/Vector3 right_knee_angular
+
+geometry_msgs/Vector3 right_foot_pos
+geometry_msgs/Vector3 right_foot_linear
+geometry_msgs/Vector3 right_foot_angular
+

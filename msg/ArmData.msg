@@ -1,0 +1,16 @@
+geometry_msgs/Vector3 right_hand_pos
+geometry_msgs/Vector3 right_hand_linear
+geometry_msgs/Vector3 right_hand_angular
+
+geometry_msgs/Vector3 right_elbow_pos
+geometry_msgs/Vector3 right_elbow_linear
+geometry_msgs/Vector3 right_elbow_angular
+
+geometry_msgs/Vector3 left_hand_pos
+geometry_msgs/Vector3 left_hand_linear
+geometry_msgs/Vector3 left_hand_angular
+
+geometry_msgs/Vector3 left_elbow_pos
+geometry_msgs/Vector3 left_elbow_linear
+geometry_msgs/Vector3 left_elbow_angular
+

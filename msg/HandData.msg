@@ -1,5 +1,8 @@
+geometry_msgs/Vector3 right_position
 geometry_msgs/Vector3 right_linear
 geometry_msgs/Vector3 right_angular
+
+geometry_msgs/Vector3 left_position
 geometry_msgs/Vector3 left_linear
 geometry_msgs/Vector3 left_angular
 
